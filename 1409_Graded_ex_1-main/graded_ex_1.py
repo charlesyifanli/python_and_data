@@ -72,7 +72,11 @@ def display_cart(cart):
 
 
 def generate_receipt(name, email, cart, total_cost, address):
-    pass
+    print(f'Username:{name}\n'
+          f'Email:{email}\n'
+          f'Cart:{cart}\n'
+          f'Total Cost:{total_cost}\n'
+          f'Address:{address}')
 
 
 def validate_name(name: str) -> bool:
@@ -117,48 +121,47 @@ def main():
         user_email = input('Please enter your email >> ')
         if validate_email(user_email):
             break
-    print(username, user_email)
-    # # show categories
-    # display_categories()
-    # category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
-    # # show products
-    # display_products(products[category_chosen])
-    # # process choice
-    # cart = dict()
-    # while True:
-    #     print('1. Select a product to buy\n'
-    #           '2. Sort the products according to the price.\n'
-    #           '3. Go back to the category selection.\n'
-    #           '4. Finish shopping')
-    #     choice = int(input('Please enter your choice >> '))
-    #     if choice == 1:
-    #         product_id = int(input('Please enter the id >> '))
-    #         quantity = int(input('Please enter the number >> '))
-    #         add_to_cart(cart=cart, product=[category_chosen, product_id], quantity=quantity)
-    #         continue
-    #     elif choice == 2:
-    #         print('1. Ascending\n'
-    #               '2. Descending')
-    #         print(display_sorted_products(products[category_chosen], int(input('Please enter the number'))))
-    #         continue
-    #     elif choice == 3:
-    #         display_categories()
-    #         category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
-    #         # show products
-    #         display_products(products[category_chosen])
-    #         continue
-    #     elif choice == 4:
-    #         if not cart:
-    #             print('Thank you for using our portal. '
-    #                   'Hope you buy something from us next time. Have a nice day')
-    #             break
-    #         else:
-    #             cost = display_cart(cart)
-    #             print(f'Totally cost: {cost}')
-    #             # delivery
-    #             address = input('Please enter your delivery address')
-    #
-    #             continue
+    # show categories
+    display_categories()
+    category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
+    # show products
+    display_products(products[category_chosen])
+    # process choice
+    cart = dict()
+    while True:
+        print('1. Select a product to buy\n'
+              '2. Sort the products according to the price.\n'
+              '3. Go back to the category selection.\n'
+              '4. Finish shopping')
+        choice = int(input('Please enter your choice >> '))
+        if choice == 1:
+            product_id = int(input('Please enter the id >> '))
+            quantity = int(input('Please enter the number >> '))
+            add_to_cart(cart=cart, product=[category_chosen, product_id], quantity=quantity)
+            continue
+        elif choice == 2:
+            print('1. Ascending\n'
+                  '2. Descending')
+            print(display_sorted_products(products[category_chosen], int(input('Please enter the number'))))
+            continue
+        elif choice == 3:
+            display_categories()
+            category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
+            # show products
+            display_products(products[category_chosen])
+            continue
+        elif choice == 4:
+            if not cart:
+                print('Thank you for using our portal. '
+                      'Hope you buy something from us next time. Have a nice day')
+                break
+            else:
+                cost = display_cart(cart)
+                print(f'Totally cost: {cost}')
+                # delivery
+                address = input('Please enter your delivery address')
+                generate_receipt(name=username, email=user_email, cart=cart, total_cost=cost, address=address)
+                break
 
 
 """ The following block makes sure that the main() function is called when the program is run. 
