@@ -1,6 +1,4 @@
 # Products available in the store by category
-from Demos.win32ts_logoff_disconnected import username
-
 products = {
     "IT Products": [
         ("Laptop", 1000),
@@ -45,7 +43,8 @@ def display_products(products_list):
         print(f'{i}. {product}:{price}')
 
 
-def display_categories():
+def display_categories() -> None:
+    print('The followings are the categories:')
     i = 0
     for key in products.keys():
         i += 1
@@ -58,8 +57,8 @@ def add_to_cart(cart, product, quantity):
     if not cart.get(product_name):
         cart[product_name] = [product_price, quantity]
     else:
-        cart[product_name][quantity] += quantity
-    print('Your product has already been added')
+        cart[product_name][1] += quantity
+    print('Your product has already been added into the cart')
 
 
 def display_cart(cart):
@@ -81,19 +80,19 @@ def generate_receipt(name, email, cart, total_cost, address):
 
 def validate_name(name: str) -> bool:
     if ' ' not in name:
-        print('Invalid name')
+        print('Invalid Name')
         return False
     res = True
     first, last = name.split(' ')
     if not first.isalpha() or not last.isalpha():
-        print('Invalid')
+        print('Invalid Name')
         res = False
     return res
 
 
 def validate_email(email: str) -> bool:
     if '@' not in email:
-        print('Invalid email')
+        print('Invalid Email')
         return False
     else:
         return True
@@ -110,45 +109,71 @@ def get_category(num: int) -> str:
 
 def main():
     # name
-    username = ''
-    while True:
-        username = input('Please enter your firstname and lastname seperated by blank with only alphabets >> ')
-        if validate_name(username):
-            break
+    username = input('Please enter your full name >> ')
+    while not validate_name(username):
+        username = input('Please enter your full name >> ')
+
     # email
-    user_email = ''
-    while True:
+    user_email = input('Please enter your email >> ')
+    while not validate_email(user_email):
         user_email = input('Please enter your email >> ')
-        if validate_email(user_email):
-            break
+
     # show categories
     display_categories()
-    category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
+    ##
+    category_num = input('Please enter the number corresponding with category >> ')
+    while not category_num.isdigit():
+        category_num = input('Please enter the number corresponding with category >> ')
+    ## get category name
+    category_name = get_category(int(category_num))
+
     # show products
-    display_products(products[category_chosen])
+    display_products(products[category_name])
+
     # process choice
     cart = dict()
+    ##
     while True:
+        print('\nYou have 4 choices:')
         print('1. Select a product to buy\n'
               '2. Sort the products according to the price.\n'
               '3. Go back to the category selection.\n'
               '4. Finish shopping')
         choice = int(input('Please enter your choice >> '))
         if choice == 1:
-            product_id = int(input('Please enter the id >> '))
-            quantity = int(input('Please enter the number >> '))
-            add_to_cart(cart=cart, product=[category_chosen, product_id], quantity=quantity)
+            # product id
+            product_id = input('Please enter the number corresponding with product >> ')
+            while not product_id.isdigit():
+                product_id = input('Please enter the number corresponding with product >> ')
+            # product quantity
+            quantity = input('Please enter the quantity >> ')
+            while not quantity.isdigit():
+                quantity = input('Please enter the quantity >> ')
+            # add to cart
+            add_to_cart(cart=cart, product=[category_name, int(product_id)], quantity=int(quantity))
             continue
         elif choice == 2:
             print('1. Ascending\n'
                   '2. Descending')
-            print(display_sorted_products(products[category_chosen], int(input('Please enter the number'))))
+            #
+            order = input('Please enter the number corresponding with order >> ')
+            while not order.isdigit():
+                order = input('Please enter the number corresponding with order >> ')
+            #
+            print(display_sorted_products(products[category_name], int(order)))
             continue
         elif choice == 3:
+            # show categories
             display_categories()
-            category_chosen = get_category(int(input('Please enter your number corresponding with category >> ')))
+            ##
+            category_num = input('Please enter the number corresponding with category >> ')
+            while not category_num.isdigit():
+                category_num = input('Please enter the number corresponding with category >> ')
+            ## get category name
+            category_name = get_category(int(category_num))
+
             # show products
-            display_products(products[category_chosen])
+            display_products(products[category_name])
             continue
         elif choice == 4:
             if not cart:
@@ -159,7 +184,7 @@ def main():
                 cost = display_cart(cart)
                 print(f'Totally cost: {cost}')
                 # delivery
-                address = input('Please enter your delivery address')
+                address = input('Please enter your delivery address >> ')
                 generate_receipt(name=username, email=user_email, cart=cart, total_cost=cost, address=address)
                 break
 

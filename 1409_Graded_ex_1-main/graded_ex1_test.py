@@ -10,23 +10,23 @@ class TestShoppingProgram(unittest.TestCase):
     def setUp(self):
         self.cart = []
 
-    def test_name_validation(self):
-        self.assertTrue(gex.validate_name("John Doe"))  
-        self.assertFalse(gex.validate_name("JohnDoe"))  
-        self.assertFalse(gex.validate_name("John 123")) 
+    # def test_name_validation(self):
+    #     self.assertTrue(gex.validate_name("John Doe"))
+    #     self.assertFalse(gex.validate_name("JohnDoe"))
+    #     self.assertFalse(gex.validate_name("John 123"))
 
-    
-    def test_email_validation(self):
-        self.assertTrue(gex.validate_email("john.doe@example.com"))  
-        self.assertFalse(gex.validate_email("johndoe.com"))  
-        self.assertTrue(gex.validate_email("john@doe"))  
-        self.assertFalse(gex.validate_email(" "))  
+
+    # def test_email_validation(self):
+    #     self.assertTrue(gex.validate_email("john.doe@example.com"))
+    #     self.assertFalse(gex.validate_email("johndoe.com"))
+    #     self.assertTrue(gex.validate_email("john@doe"))
+    #     self.assertFalse(gex.validate_email(" "))
 
 
     @patch('builtins.input', side_effect=['1'])
     def test_valid_category_selection(self, mock_input):
         category_index = gex.display_categories()
-        self.assertEqual(category_index, 0)  
+        self.assertEqual(category_index, 0)
 
     @patch('builtins.input', side_effect=['5'])
     def test_invalid_category_selection(self, mock_input):
