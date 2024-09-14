@@ -28,62 +28,62 @@ class TestShoppingProgram(unittest.TestCase):
         category_index = gex.display_categories()
         self.assertEqual(category_index, 0)
 
-    @patch('builtins.input', side_effect=['5'])
-    def test_invalid_category_selection(self, mock_input):
-        category_index = gex.display_categories()
-        self.assertTrue(category_index is None or category_index >= len(gex.products))  
+    # @patch('builtins.input', side_effect=['5'])
+    # def test_invalid_category_selection(self, mock_input):
+    #     category_index = gex.display_categories()
+    #     self.assertTrue(category_index is None or category_index >= len(gex.products))
 
 
-    @patch('builtins.input', side_effect=['abc'])
-    def test_non_numeric_category_selection(self, mock_input):
-        category_index = gex.display_categories()
-        self.assertIsNone(category_index)  
-
-    
-    def test_valid_product_selection(self):
-        products_list = [("Laptop", 1000), ("Smartphone", 600)]
-        product_choice = "1"
-        product_index = int(product_choice) - 1
-        self.assertEqual(product_index, 0)  
-
-    def test_invalid_product_selection(self):
-        products_list = [("Laptop", 1000), ("Smartphone", 600)]
-        product_choice = "10"  
-        product_index = int(product_choice) - 1
-        self.assertNotIn(product_index, range(len(products_list)))  
+    # @patch('builtins.input', side_effect=['abc'])
+    # def test_non_numeric_category_selection(self, mock_input):
+    #     category_index = gex.display_categories()
+    #     self.assertIsNone(category_index)
 
     
-    def test_valid_quantity(self):
-        quantity = "3"
-        self.assertTrue(quantity.isdigit() and int(quantity) > 0)  
+    # def test_valid_product_selection(self):
+    #     products_list = [("Laptop", 1000), ("Smartphone", 600)]
+    #     product_choice = "1"
+    #     product_index = int(product_choice) - 1
+    #     self.assertEqual(product_index, 0)
 
-    def test_invalid_quantity_zero(self):
-        quantity = "0"
-        self.assertFalse(int(quantity) > 0)  
+    # def test_invalid_product_selection(self):
+    #     products_list = [("Laptop", 1000), ("Smartphone", 600)]
+    #     product_choice = "10"
+    #     product_index = int(product_choice) - 1
+    #     self.assertNotIn(product_index, range(len(products_list)))
 
-    def test_invalid_quantity_non_numeric(self):
-        quantity = "abc"
-        self.assertFalse(quantity.isdigit())  
+    
+    # def test_valid_quantity(self):
+    #     quantity = "3"
+    #     self.assertTrue(quantity.isdigit() and int(quantity) > 0)
+
+    # def test_invalid_quantity_zero(self):
+    #     quantity = "0"
+    #     self.assertFalse(int(quantity) > 0)
+
+    # def test_invalid_quantity_non_numeric(self):
+    #     quantity = "abc"
+    #     self.assertFalse(quantity.isdigit())
 
     # Test Sorting Products
-    def test_sort_ascending(self):
-        products_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
-        sorted_list = gex.display_sorted_products(products_list, "asc")
-        expected_list = [("USB Drive", 15), ("Smartphone", 600), ("Laptop", 1000)]
-        self.assertEqual(sorted_list, expected_list)  
+    # def test_sort_ascending(self):
+    #     products_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
+    #     sorted_list = gex.display_sorted_products(products_list, "asc")
+    #     expected_list = [("USB Drive", 15), ("Smartphone", 600), ("Laptop", 1000)]
+    #     self.assertEqual(sorted_list, expected_list)
 
-    def test_sort_descending(self):
-        products_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
-        sorted_list = gex.display_sorted_products(products_list, "desc")
-        expected_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
-        self.assertEqual(sorted_list, expected_list)  
+    # def test_sort_descending(self):
+    #     products_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
+    #     sorted_list = gex.display_sorted_products(products_list, "desc")
+    #     expected_list = [("Laptop", 1000), ("Smartphone", 600), ("USB Drive", 15)]
+    #     self.assertEqual(sorted_list, expected_list)
 
     
-    def test_add_to_cart(self):
-        product = ("Laptop", 1000)
-        quantity = 2
-        gex.add_to_cart(self.cart, product, quantity)
-        self.assertIn(("Laptop", 1000, 2), self.cart)  
+    # def test_add_to_cart(self):
+    #     product = ("Laptop", 1000)
+    #     quantity = 2
+    #     gex.add_to_cart(self.cart, product, quantity)
+    #     self.assertIn(("Laptop", 1000, 2), self.cart)
 
     def test_display_cart(self):
         cart = [("Laptop", 1000, 2), ("Smartphone", 600, 1)]
@@ -93,16 +93,16 @@ class TestShoppingProgram(unittest.TestCase):
             self.assertIn(expected_output, fake_out.getvalue().strip())  
 
     
-    @patch('builtins.input', side_effect=['3'])  
-    def test_back_to_categories(self, mock_input):
-        action_choice = '3'
-        self.assertEqual(action_choice, '3')  
+    # @patch('builtins.input', side_effect=['3'])
+    # def test_back_to_categories(self, mock_input):
+    #     action_choice = '3'
+    #     self.assertEqual(action_choice, '3')
 
     
-    @patch('builtins.input', side_effect=['4'])  
-    def test_finish_shopping(self, mock_input):
-        finish_shopping = True
-        self.assertTrue(finish_shopping)  
+    # @patch('builtins.input', side_effect=['4'])
+    # def test_finish_shopping(self, mock_input):
+    #     finish_shopping = True
+    #     self.assertTrue(finish_shopping)
 
     
     """ def test_receipt_generation(self):

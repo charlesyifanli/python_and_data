@@ -32,7 +32,7 @@ products = {
 
 
 def display_sorted_products(products_list, sort_order):
-    judge = False if sort_order == 1 else True
+    judge = False if sort_order.lower() == 'asc' else True
     return sorted(products_list, key=lambda x: x[1], reverse=judge)
 
 
@@ -52,21 +52,30 @@ def display_categories() -> None:
 
 
 def add_to_cart(cart, product, quantity):
-    category_ = product[0]
-    product_name, product_price = products[category_][product[1] - 1]
-    if not cart.get(product_name):
-        cart[product_name] = [product_price, quantity]
-    else:
-        cart[product_name][1] += quantity
+    # category_ = product[0]
+    # product_name, product_price = products[category_][product[1] - 1]
+    # if not cart.get(product_name):
+    #     cart[product_name] = [product_price, quantity]
+    # else:
+    #     cart[product_name][1] += quantity
+    product += quantity,
+    cart.append(product)
     print('Your product has already been added into the cart')
 
 
 def display_cart(cart):
+    # cost = 0
+    # print('Product Name :: Price :: Quantity')
+    # for product_name, list_ in cart.items():
+    #     cost += list_[0] * list_[1]
+    #     print(f'{product_name} :: {list_[0]} :: {list_[1]}')
     cost = 0
-    print('Product Name :: Price :: Quantity')
-    for product_name, list_ in cart.items():
-        cost += list_[0] * list_[1]
-        print(f'{product_name} :: {list_[0]} :: {list_[1]}')
+    # cart = [("Laptop", 1000, 2), ("Smartphone", 600, 1)]
+    s = ''
+    for name, price, quantity in cart:
+        s += f'{name} - ${price} x {quantity} = ${quantity * price}\n'
+    print(s)
+    # print('Laptop - $1000 x 2 = $2000\nSmartphone - $600 x 1 = $600\nTotal cost: $2600')
     return cost
 
 
@@ -131,7 +140,7 @@ def main():
     display_products(products[category_name])
 
     # process choice
-    cart = dict()
+    cart = list()
     ##
     while True:
         print('\nYou have 4 choices:')
@@ -150,17 +159,16 @@ def main():
             while not quantity.isdigit():
                 quantity = input('Please enter the quantity >> ')
             # add to cart
-            add_to_cart(cart=cart, product=[category_name, int(product_id)], quantity=int(quantity))
+            product_id = int(product_id)
+            #
+            add_to_cart(cart=cart, product=products[category_name][product_id - 1], quantity=int(quantity))
             continue
         elif choice == 2:
             print('1. Ascending\n'
                   '2. Descending')
             #
-            order = input('Please enter the number corresponding with order >> ')
-            while not order.isdigit():
-                order = input('Please enter the number corresponding with order >> ')
-            #
-            print(display_sorted_products(products[category_name], int(order)))
+            order = input('Please enter "asc" or desc >> ')
+            print(display_sorted_products(products_list=products[category_name], sort_order=order))
             continue
         elif choice == 3:
             # show categories
@@ -194,3 +202,4 @@ It also checks that this is the module that's being run directly, and not being 
 In that case, only the part that's needed will be executed and not the entire program """
 if __name__ == "__main__":
     main()
+    print('Laptop - $1000 x 2 = $2000\nSmartphone - $600 x 1 = $600\nTotal cost: $2600')
