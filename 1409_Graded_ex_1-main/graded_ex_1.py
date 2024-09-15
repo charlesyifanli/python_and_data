@@ -119,7 +119,7 @@ def main():
         # Display categories
         category_num = display_categories()
         category_num += 1
-        category_name = get_category_by_number(category_num)
+        category_name = get_category_by_number(category_num=category_num)
 
         if not category_name:
             print('Invalid category. Try again.')
@@ -127,7 +127,7 @@ def main():
 
         while True:
             # Display products in the selected category
-            display_products(products[category_name])
+            display_products(products_list=products[category_name])
 
             print('\nYou have 4 choices:')
             print('1. Select a product to buy')
@@ -135,24 +135,24 @@ def main():
             print('3. Go back to category selection')
             print('4. Finish shopping')
 
-            choice = get_user_input('Please enter your choice >> ', str.isdigit)
+            choice = get_user_input(prompt='Please enter your choice >> ', validation_fn=str.isdigit)
             choice = int(choice)
 
             if choice == 1:
                 # Select a product and quantity
-                product_id = int(get_user_input('Enter the product number >> ', str.isdigit))
-                quantity = int(get_user_input('Enter the quantity >> ', str.isdigit))
+                product_id = int(get_user_input(prompt='Enter the product number >> ', validation_fn=str.isdigit))
+                quantity = int(get_user_input(prompt='Enter the quantity >> ', validation_fn=str.isdigit))
                 if 1 <= product_id <= len(products[category_name]):
                     product = products[category_name][product_id - 1]
-                    add_to_cart(cart, product, quantity)
+                    add_to_cart(cart=cart, product=product, quantity=quantity)
                 else:
                     print('Invalid product number.')
 
             elif choice == 2:
                 # Sort products by price
-                sort_order = get_user_input('Enter "asc" for ascending or "desc" for descending >> ').lower()
-                sorted_products = display_sorted_products(products[category_name], sort_order)
-                display_products(sorted_products)
+                sort_order = get_user_input(prompt='Enter "asc" for ascending or "desc" for descending >> ').lower()
+                sorted_products = display_sorted_products(products_list=products[category_name], sort_order=sort_order)
+                display_products(products_list=sorted_products)
 
             elif choice == 3:
                 # Go back to category selection
@@ -164,9 +164,10 @@ def main():
                     print('No items in the cart. Goodbye!')
                     return
 
-                total_cost = display_cart(cart)
+                total_cost = display_cart(cart=cart)
                 delivery_address = input('Please enter your delivery address >> ')
-                generate_receipt(username, user_email, cart, total_cost, delivery_address)
+                generate_receipt(name=username, email=user_email, cart=cart, total_cost=total_cost,
+                                 address=delivery_address)
                 return
 
 
