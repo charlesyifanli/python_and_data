@@ -161,7 +161,7 @@ def main():
             elif choice == 4:
                 # Finish shopping
                 if not cart:
-                    print('No items in the cart. Goodbye!')
+                    print('Thank you for using our portal. Hope you buy something from us next time. Have a nice day')
                     return
 
                 total_cost = display_cart(cart=cart)
