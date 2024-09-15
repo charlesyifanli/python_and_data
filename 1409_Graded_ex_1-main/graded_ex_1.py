@@ -46,7 +46,8 @@ def display_categories():
     print('The following are the categories:')
     for i, category in enumerate(products.keys(), start=1):
         print(f'{i}. {category}')
-    return
+    category_num = input('Enter the number of the category >> ')
+    return int(category_num) - 1 if category_num.isdigit() else None
 
 
 def add_to_cart(cart, product, quantity):
@@ -116,8 +117,8 @@ def main():
 
     while True:
         # Display categories
-        display_categories()
-        category_num = int(get_user_input('Enter the number of the category >> ', str.isdigit))
+        category_num = display_categories()
+        category_num += 1
         category_name = get_category_by_number(category_num)
 
         if not category_name:
