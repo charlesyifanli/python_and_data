@@ -40,6 +40,7 @@ def display_sorted_products(products_list, sort_order):
 def display_products(products_list):
     for i, (product, price) in enumerate(products_list, start=1):
         print(f'{i}. {product}: ${price}')
+    print('')
 
 
 def display_categories():
