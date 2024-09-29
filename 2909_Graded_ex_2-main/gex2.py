@@ -9,7 +9,6 @@ class DataInspection:
 
     def load_csv(self, file_path: str) -> None:
         self.df = pd.read_csv(file_path)
-        pass
 
     def plot_histogram(self, col) -> None:
         plt.hist(self.df[col], bins=20, color='skyblue', edgecolor='black')
