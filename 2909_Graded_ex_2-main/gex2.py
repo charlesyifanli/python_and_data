@@ -8,7 +8,7 @@ class DataInspection:
         self.df = None  # DataFrame will be loaded and stored here
 
     def load_csv(self, file_path: str) -> None:
-        self.df = pd.read_csv('./Datafiniti_Hotel_Reviews_Jun19.csv')
+        self.df = pd.read_csv(file_path)
 
     def plot_histogram(self, col) -> None:
         plt.hist(self.df[col], bins=20, color='skyblue', edgecolor='black')
@@ -60,9 +60,9 @@ class DataInspection:
         except ValueError:
             pass
 
-    def classify_and_calculate(self, col):
-        if self.handle_missing_values(col=col):  # no deleted
-            self.check_data_types(col=col)  # convert
+    def classify_and_calculate(self, col) -> int:
+        if self.handle_missing_values(col=col):
+            self.check_data_types(col=col)
             unique_count = self.df[col].nunique()
             if pd.api.types.is_numeric_dtype(self.df[col]):
                 if unique_count < 10:  # Ordinal
@@ -83,7 +83,7 @@ class DataInspection:
                     self.plot_bar_chart(col)
                     return mode_value
         else:
-            return None
+            return 0
 
     def classify_columns(self) -> None:
         for column_name in self.df.columns:
@@ -106,7 +106,7 @@ class DataInspection:
 
         self.plot_scatter(numeric_cols[col1_idx], numeric_cols[col2_idx])
 
-    def ask_for_boxplot(self):
+    def ask_for_boxplot(self) -> None:
         numeric_cols = self.numeric_columns()
         ordinal_cols = [col for col in self.df.columns if self.df[col].nunique() < 10]
 
@@ -127,7 +127,7 @@ class DataInspection:
         numeric_cols = [col for col in self.df.columns if pd.api.types.is_numeric_dtype(self.df[col])]
         return numeric_cols
 
-    def ask_for_correlation(self, numeric_cols):
+    def ask_for_correlation(self, numeric_cols) -> None:
         print("Numerical Columns:")
         for idx, col in enumerate(numeric_cols, start=1):
             print(f"{idx}. {col}")
@@ -138,7 +138,7 @@ class DataInspection:
         correlation_value = self.df[numeric_cols[col1_idx]].corr(self.df[numeric_cols[col2_idx]])
         return correlation_value
 
-    def ask_for_std(self, numeric_cols):
+    def ask_for_std(self, numeric_cols) -> None:
         print("Numerical Columns:")
         for idx, col in enumerate(numeric_cols, start=1):
             print(f"{idx}. {col}")
@@ -148,7 +148,7 @@ class DataInspection:
         std_value = self.df[numeric_cols[col_idx]].std()
         return std_value
 
-    def ask_for_kurtosis(self, numeric_cols):
+    def ask_for_kurtosis(self, numeric_cols) -> None:
         print("Numerical Columns:")
         for idx, col in enumerate(numeric_cols, start=1):
             print(f"{idx}. {col}")
@@ -158,7 +158,7 @@ class DataInspection:
         kurt_value = self.df[numeric_cols[col_idx]].kurt()
         return kurt_value
 
-    def ask_for_skewness(self, numeric_cols):
+    def ask_for_skewness(self, numeric_cols) -> None:
         print("Numerical Columns:")
         for idx, col in enumerate(numeric_cols, start=1):
             print(f"{idx}. {col}")
