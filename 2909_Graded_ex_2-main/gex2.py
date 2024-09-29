@@ -106,7 +106,6 @@ class DataInspection:
         if col2_idx not in range(len(numeric_cols)):
             col2_idx = 1
 
-        # Call the plot_scatter method with the selected columns
         self.plot_scatter(numeric_cols[col1_idx], numeric_cols[col2_idx])
 
     def ask_for_boxplot(self):
