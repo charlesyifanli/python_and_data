@@ -8,7 +8,7 @@ class DataInspection:
         self.df = None  # DataFrame will be loaded and stored here
 
     def load_csv(self, file_path: str) -> None:
-        self.df = pd.read_csv('./Datafiniti_Hotel_Reviews_Jun19.csv')
+        self.df = pd.read_csv(file_path)
         pass
 
     def plot_histogram(self, col) -> None:
@@ -161,6 +161,7 @@ def main():
     analysis.load_csv(file_path=file_path)
     analysis.classify_columns()
 
+    print('hello world')
     analysis.ask_for_scatterplot()
     analysis.ask_for_boxplot()
 
