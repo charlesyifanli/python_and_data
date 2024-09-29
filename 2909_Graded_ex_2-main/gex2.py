@@ -7,7 +7,7 @@ class DataInspection:
         self.df = None  # DataFrame will be loaded and stored here
 
     def load_csv(self, file_path: str) -> None:
-        self.df = pd.read_csv(file_path)
+        self.df = pd.read_csv('./Datafiniti_Hotel_Reviews_Jun19.csv')
 
     def plot_histogram(self, col) -> None:
         self.df[col].plot(kind='hist')
@@ -18,7 +18,7 @@ class DataInspection:
 
     def plot_boxplot(self, x_col, y_col) -> None:
         plt.figure(figsize=(10, 6))
-        self.df.boxplot(column=y_col, by=x_col)
+        plt.boxplot(self.df[x_col], self.df[y_col], alpha=0.5)
         plt.title(f'Boxplot of {y_col} by {x_col}')
         plt.suptitle('')
         plt.xlabel(x_col)
