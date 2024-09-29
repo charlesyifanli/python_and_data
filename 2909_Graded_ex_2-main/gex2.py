@@ -19,7 +19,7 @@ class DataInspection:
         plt.show()
 
     def plot_boxplot(self, x_col, y_col='') -> None:
-        y_col='Country'if not y_col else y_col
+        y_col = 'address' if not y_col else y_col
         sns.boxplot(x=x_col, y=y_col, data=self.df)
         plt.title(f'Boxplot of {y_col} by {x_col}')
         plt.xlabel(x_col)
@@ -76,13 +76,13 @@ class DataInspection:
                     self.plot_histogram(col)
                     return mean_value
             elif pd.api.types.is_object_dtype(self.df[col]):
-                if unique_count < 10:  # Ordinal
-                    mode_value = self.df[col].mode()[0]
+                if unique_count < 20:  # Ordinal
+                    median_value = self.df[col].median()
                     self.plot_bar_chart(col)
-                    return mode_value
+                    return median_value
                 else:  # Nominal
                     mode_value = self.df[col].mode()[0]
-                    self.plot_bar_chart(col)
+                    self.plot_histogram(col)
                     return mode_value
         else:
             return 0
