@@ -17,7 +17,13 @@ class DataInspection:
         plt.show()
 
     def plot_boxplot(self, x_col, y_col) -> None:
-        pass
+        plt.figure(figsize=(10, 6))
+        self.df.boxplot(column=y_col, by=x_col)
+        plt.title(f'Boxplot of {y_col} by {x_col}')
+        plt.suptitle('')
+        plt.xlabel(x_col)
+        plt.ylabel(y_col)
+        plt.show()
 
     def plot_bar_chart(self, col) -> None:
         self.df[col].value_counts().plot(kind='bar')
