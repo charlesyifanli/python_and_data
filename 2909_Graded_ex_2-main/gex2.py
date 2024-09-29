@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 class DataInspection:
@@ -10,31 +11,29 @@ class DataInspection:
         self.df = pd.read_csv('./Datafiniti_Hotel_Reviews_Jun19.csv')
 
     def plot_histogram(self, col) -> None:
-        self.df[col].plot(kind='hist')
+        plt.hist(self.df[col], bins=20, color='skyblue', edgecolor='black')
         plt.title(f'Histogram of {col}')
         plt.xlabel(col)
         plt.ylabel('Frequency')
         plt.show()
 
     def plot_boxplot(self, x_col, y_col) -> None:
-        plt.figure(figsize=(10, 6))
-        plt.boxplot(self.df[x_col], self.df[y_col], alpha=0.5)
+        sns.boxplot(x=x_col, y=y_col, data=self.df)
         plt.title(f'Boxplot of {y_col} by {x_col}')
-        plt.suptitle('')
         plt.xlabel(x_col)
         plt.ylabel(y_col)
         plt.show()
 
     def plot_bar_chart(self, col) -> None:
-        self.df[col].value_counts().plot(kind='bar')
+        value_counts = self.df[col].value_counts()
+        plt.bar(value_counts.index, value_counts.values)
         plt.title(f'Bar Chart of {col}')
         plt.xlabel(col)
         plt.ylabel('Frequency')
         plt.show()
 
     def plot_scatter(self, x_col, y_col) -> None:
-        plt.figure(figsize=(8, 6))
-        plt.scatter(self.df[x_col], self.df[y_col], alpha=0.5)
+        plt.scatter(self.df[x_col], self.df[y_col])
         plt.xlabel(x_col)
         plt.ylabel(y_col)
         plt.title(f'Scatter plot of {x_col} vs {y_col}')
@@ -92,7 +91,6 @@ class DataInspection:
 
     def ask_for_scatterplot(self) -> None:
         numeric_cols = self.numeric_columns()
-
         print("Numerical Columns:")
         print(numeric_cols)
         for idx, col in enumerate(numeric_cols, start=1):
