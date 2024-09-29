@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from pygments.styles.dracula import selection
 
 
 class DataInspection:
@@ -21,14 +22,31 @@ class DataInspection:
     def plot_scatter(self, x_col, y_col):
         pass
 
-    def handle_missing_values(self, col):
-        pass
+    def handle_missing_values(self, col) -> bool:
+        res = True
+        percentage = int(self.df[col].isna().sum()) / self.df[col].shape[0]
+        if percentage > 0.5:
+            self.df = self.df.drop(col, axis=1)
+            res = False
+        else:
+            if pd.api.types.is_numeric_dtype(self.df[col]):
+                median_value = self.df[col].median()
+                self.df[col] = self.df[col].fillna(median_value)
+            else:
+                mode_value = self.df[col].mode()[0]
+                self.df[col] = self.df[col].fillna(mode_value)
+        return res
 
-    def check_data_types(self, col):
+    def check_data_types(self, col) -> None:
         pass
 
     def classify_and_calculate(self, col):
-        pass
+        if self.handle_missing_values(col=col):
+            # no deleted
+            self.check_data_types(col=col)
+
+        else:
+            pass
 
     def classify_columns(self) -> None:
         for column_name in self.df.columns:
