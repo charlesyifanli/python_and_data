@@ -160,7 +160,6 @@ def main():
     analysis.load_csv(file_path=file_path)
     analysis.classify_columns()
 
-    print('hello world')
     analysis.ask_for_scatterplot()
     analysis.ask_for_boxplot()
 
