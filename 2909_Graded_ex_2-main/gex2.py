@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from prompt_toolkit.key_binding.bindings.named_commands import self_insert
 
 
 class DataInspection:
@@ -17,7 +18,8 @@ class DataInspection:
         plt.ylabel('Frequency')
         plt.show()
 
-    def plot_boxplot(self, x_col, y_col) -> None:
+    def plot_boxplot(self, x_col, y_col='') -> None:
+        y_col='Country'if not y_col else y_col
         sns.boxplot(x=x_col, y=y_col, data=self.df)
         plt.title(f'Boxplot of {y_col} by {x_col}')
         plt.xlabel(x_col)
@@ -65,9 +67,9 @@ class DataInspection:
             self.check_data_types(col=col)
             unique_count = self.df[col].nunique()
             if pd.api.types.is_numeric_dtype(self.df[col]):
-                if unique_count < 10:  # Ordinal
+                if unique_count < 20:  # Ordinal
                     median_value = self.df[col].median()
-                    self.plot_boxplot(col, 3)
+                    self.plot_boxplot(x_col=col)
                     return median_value
                 else:  # Interval/Ratio
                     mean_value = self.df[col].mean()
