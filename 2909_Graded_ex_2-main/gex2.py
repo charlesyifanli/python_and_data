@@ -17,8 +17,7 @@ class DataInspection:
         plt.ylabel('Frequency')
         plt.show()
 
-    def plot_boxplot(self, x_col, y_col='') -> None:
-        y_col = 'address' if not y_col else y_col
+    def plot_boxplot(self, x_col, y_col) -> None:
         sns.boxplot(x=x_col, y=y_col, data=self.df)
         plt.title(f'Boxplot of {y_col} by {x_col}')
         plt.xlabel(x_col)
@@ -68,7 +67,7 @@ class DataInspection:
             if pd.api.types.is_numeric_dtype(self.df[col]):
                 if unique_count < 20:  # Ordinal
                     median_value = self.df[col].median()
-                    self.plot_boxplot(x_col=col)
+                    self.plot_boxplot(x_col=col, y_col=col)
                     return median_value
                 else:  # Interval/Ratio
                     mean_value = self.df[col].mean()
