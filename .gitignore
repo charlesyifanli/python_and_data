@@ -1,8 +1,7 @@
 *.idea
 
-demo.py
-
 *.csv
 
-!titanic.csv
-!sleep_health.csv
+demo.py
+
+!heart_attack_prediction_dataset.csv
