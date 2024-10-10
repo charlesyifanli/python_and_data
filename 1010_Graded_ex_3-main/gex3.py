@@ -62,7 +62,7 @@ class DataAnalysis:
         plt.title(f'Q-Q Plot of {title}')
         # Histogram
         plt.sca(axes[1])
-        plt.hist(data, bins=30, kde=True, edgecolor='black')
+        plt.hist(data, bins=30, edgecolor='black')
         plt.title(f'Histogram of {title}')
         #
         plt.tight_layout()
@@ -127,7 +127,8 @@ def main():
     null_hyp = input("Please enter the null hypothesis: ")
 
     # 6. Conduct the analysis
-    stat, p_value = analysis.hypothesis_test(continuous_var, categorical_var, skewed, null_hyp)
+    stat, p_value = analysis.hypothesis_test(continuous_var=continuous_var, categorical_var=categorical_var,
+                                             skewed=skewed, null_hyp=null_hyp)
     print(f"Hypothesis test result: stat={stat}, p-value={p_value}")
 
 
