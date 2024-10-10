@@ -68,7 +68,7 @@ class DataAnalysis:
         plt.tight_layout()
         plt.show()
 
-    def check_normality(self, data, size_limit=2000):
+    def check_normality(self, data, size_limit=2000) -> tuple[float, float]:
         data = data.dropna()
         if len(data) <= size_limit:
             print("Shapiro-Wilk Test")
@@ -82,10 +82,11 @@ class DataAnalysis:
 
     def check_skewness(self, data):
         skewness = stats.skew(data.dropna())
-        threshold = 1
+        threshold = 0
         return abs(skewness) > threshold
 
-    def hypothesis_test(self, continuous_var, categorical_var, skewed, null_hyp):
+    def hypothesis_test(self, continuous_var, categorical_var, skewed, null_hyp) -> tuple[float, float]:
+        print(f"Null Hypothesis: {null_hyp}")
         if skewed:
             # Use Kruskal-Wallis H-test
             stat, p_value = stats.kruskal(
