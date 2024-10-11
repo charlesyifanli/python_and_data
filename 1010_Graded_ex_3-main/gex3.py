@@ -132,6 +132,8 @@ def main():
     stat, p_value = analysis.hypothesis_test(continuous_var=continuous_var, categorical_var=categorical_var,
                                              skewed=skewed, null_hyp=null_hyp)
     print(f"Hypothesis test result: stat={stat}, p-value={p_value}")
+    print("There is a significant difference between the groups." if p_value < 0.05
+          else "There is no significant difference between the groups.")
 
 
 if __name__ == "__main__":
