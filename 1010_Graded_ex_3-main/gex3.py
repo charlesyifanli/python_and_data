@@ -9,7 +9,7 @@ class DataAnalysis:
         self.column_types = None  ## a dict
 
     def dataset_loading(self) -> None:
-        self.df = pd.read_csv('test.csv')
+        self.df = pd.read_csv('hello.csv')
         self.column_types = self.list_column_types()
 
     def list_column_types(self) -> dict:
@@ -105,13 +105,14 @@ def main():
     analysis.dataset_loading()
 
     # 2. Ask the user to select a continuous variable, check its normality and visualize it using Q-Q and histogram
-    continuous_var = analysis.select_variable("interval")
+    continuous_var = analysis.select_variable('interval')
     if not continuous_var:
-        print("No continuous variable selected. Exiting.")
+        print('No continuous variable selected. Exiting.')
         return
 
     stat, p_value = analysis.check_normality(analysis.df[continuous_var])
-    print(f"Normality test result for {continuous_var}: stat={stat}, p-value={p_value}")
+    print(f'Normality test result for {continuous_var}: stat={stat}, p-value={p_value}')
+    print(f'{p_value} > 0.05, {continuous_var}: normal' if p_value > 0.05 else f'{continuous_var}: not normal')
     analysis.plot_qq_histogram(analysis.df[continuous_var], continuous_var)
 
     # 3. Ask the user to select a categorical variable
