@@ -9,7 +9,7 @@ class DataAnalysis:
         self.column_types = None  ## a dict
 
     def dataset_loading(self) -> None:
-        self.df = pd.read_csv('hello.csv')
+        self.df = pd.read_csv('./test.csv')
         self.column_types = self.list_column_types()
 
     def list_column_types(self) -> dict:
