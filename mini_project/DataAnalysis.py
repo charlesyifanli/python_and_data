@@ -3,10 +3,8 @@ import pandas as pd
 
 
 class DataAnalysis:
-    def __init__(self):
-        self.df = None
-
-    def check_normality(self, data, critical_size=2000):
+    @staticmethod
+    def check_normality(data, critical_size=2000):
         n = len(data)
 
         if n < critical_size:
@@ -14,7 +12,7 @@ class DataAnalysis:
             test_name = 'Shapiro-Wilk'
         else:
             stat, critical_values, significance_level = stats.anderson(data, dist='norm')
-            p_value = self.get_ad_p_value(stat, critical_values)
+            p_value = DataAnalysis.get_ad_p_value(stat, critical_values)
             test_name = 'Anderson-Darling'
 
         return {
@@ -24,7 +22,8 @@ class DataAnalysis:
             'is_normal': p_value > 0.05
         }
 
-    def anova_kruskal_t_mann_test(self, category_vars, interval_vars, is_normal):
+    @staticmethod
+    def anova_kruskal_t_mann_test(category_vars, interval_vars, is_normal):
         if len(category_vars) < 3:
             if is_normal:
                 # Perform t-test
@@ -51,7 +50,8 @@ class DataAnalysis:
             'is_significant': p_value < 0.05
         }
 
-    def chi_square_test(self, var01, var02):
+    @staticmethod
+    def chi_square_test(var01, var02):
         contingency_table = pd.crosstab(var01, var02)
         stat, p_value, dof, expected = stats.chi2_contingency(contingency_table)
         return {
@@ -61,7 +61,8 @@ class DataAnalysis:
             'is_significant': p_value < 0.05
         }
 
-    def get_ad_p_value(self, statistic, critical_values):
+    @staticmethod
+    def get_ad_p_value(statistic, critical_values):
         """according to Anderson-Darling statistic and critical_values judge p value"""
         if statistic < critical_values[0]:  # 1% significance level
             return 1.0
