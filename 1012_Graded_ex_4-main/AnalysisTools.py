@@ -2,7 +2,7 @@ from scipy import stats
 import pandas as pd
 
 
-class DataAnalysis:
+class AnalysisTools:
     @staticmethod
     def check_normality(data, critical_size=2000):
         n = len(data)
@@ -12,7 +12,7 @@ class DataAnalysis:
             test_name = 'Shapiro-Wilk'
         else:
             stat, critical_values, significance_level = stats.anderson(data, dist='norm')
-            p_value = DataAnalysis.get_ad_p_value(stat, critical_values)
+            p_value = AnalysisTools.get_ad_p_value(stat, critical_values)
             test_name = 'Anderson-Darling'
 
         return {
