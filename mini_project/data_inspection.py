@@ -9,6 +9,9 @@ class Inspection:
         self.df = None
         self.column_types = None
 
+    def save_column_types(self):
+        self.column_types = self.list_column_types()
+
     def list_column_types(self) -> dict:
         column_types = dict()
         for column in list(self.df.columns):
@@ -18,58 +21,48 @@ class Inspection:
                 column_types[column] = 'non-numeric ordinal' if self.df[column].nunique() < 10 else 'nominal'
         return column_types
 
-    def classify_and_calculate(self, col):
-        '''参考上面重写一下'''
-        n = self.df[col].nunique()
-        if pd.api.types.is_numeric_dtype(self.df[col]):
-            if n < 10:  # numeric ordinal
-                median_num = self.df[col].median()
-                return ['Median', median_num]
-            else:  # interval
-                mean = self.df[col].mean()
-                return ['Mean', mean]
-        else:
-            if n < 10:  # ordinal
-                median_num = self.df[col].median()
-                return ['Median', median_num]
-            else:  # normal
-                mode = self.df[col].mode()[0]
-                return ['Mode', mode]
+    def calculate_and_plot(self):
+        for col_name, category in dict(self.column_types).items():
+            if 'nominal' in category:
+                mode = self.df[category].mode()[0]
+                self.plot_bar_chart(col_name, mode)
+            elif 'ordinal' in category:
+                median = self.df[category].median()
+                self.plot_boxplot(col_name, median)
+            else:
+                mean = self.df[category].mean()
+                self.plot_histogram(col_name, mean)
 
-    def plot_histogram(self, data, x_label) -> None:
+    def plot_bar_chart(self, col, mode) -> None:
+        res = self.df[col].value_counts()
+
         plt.figure(figsize=(8, 4))
-        sns.histplot(data=data, bins=30, kde=True, color='skyblue', edgecolor='black')
-        plt.title(f'Histogram of {x_label}')
-        plt.xlabel(x_label)
+        plt.bar(res.index, res.values, color='skyblue')
+
+        plt.title('Category Frequency')
+        plt.xlabel('Category')
+        plt.ylabel('Count')
+
+        plt.legend([f'Mode: {mode}'], loc='upper right')
+        plt.show()
+
+    def plot_boxplot(self, col, median) -> None:
+        plt.figure(figsize=(8, 4))
+        sns.boxplot(y=self.df[col])
+        plt.title(f'Boxplot of {col}')
+        plt.xlabel('')
+        plt.ylabel(col)
+
+        plt.legend([f'Median: {median}'], loc='upper right')
+        plt.show()
+
+    def plot_histogram(self, col, mean) -> None:
+        plt.figure(figsize=(8, 4))
+        sns.histplot(data=self.df[col], bins=30, kde=True, color='skyblue', edgecolor='black')
+
+        plt.title(f'Histogram of {col}')
+        plt.xlabel(col)
         plt.ylabel('Frequency')
-        plt.show()
 
-    def plot_boxplot(self, x_col, y_col, data) -> None:
-        plt.figure(figsize=(8, 4))
-        sns.boxplot(x=x_col, y=y_col, data=data)
-        plt.title(f'Boxplot of {y_col} by {x_col}')
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
-        plt.show()
-
-    def plot_bar_chart(self, x_col, y_col, data) -> None:
-        plt.figure(figsize=(8, 4))
-        plt.bar(data[x_col], data[y_col], color='skyblue')
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
-        plt.title(f'Bar Chart of {x_col} vs {y_col}')
-        plt.show()
-
-    def plot_scatter(self, x_col, y_col, data) -> None:
-        plt.figure(figsize=(8, 4))
-        plt.scatter(data[x_col], data[y_col])
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
-        plt.title(f'Scatter plot of {x_col} vs {y_col}')
-        plt.show()
-
-    def plot_QQ_plot(self, data):
-        plt.figure(figsize=(8, 4))
-        stats.probplot(x=data, dist='norm', plot=plt)
-        plt.title('QQ plot')
+        plt.legend([f'Mean: {mean}'], loc='upper right')
         plt.show()

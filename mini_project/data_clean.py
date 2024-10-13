@@ -5,6 +5,11 @@ class Clean:
     def __init__(self):
         self.df = None
 
+    def process(self):
+        for col in self.df.columns:
+            self.handle_missing_values(col)
+            self.check_data_types(col)
+
     def handle_missing_values(self, col) -> bool:
         percentage = self.df[col].isna().mean()
         if percentage > 0.5:
