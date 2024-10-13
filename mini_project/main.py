@@ -10,7 +10,8 @@ class Robot:
         self.column_types = None
 
     def load_csv(self, file_path):
-        self.df = pd.read_csv('./heart_attack_prediction_dataset.csv')
+        file_path = './heart_attack_prediction_dataset.csv' if not file_path else file_path
+        self.df = pd.read_csv(file_path)
 
 
 def main():
@@ -22,13 +23,14 @@ def main():
     ## data cleaning
     clean = Clean()
     clean.df = robot.df
+    ### handle missing value and caste type
     clean.process()
     robot.df = clean.df
 
     ## data inspection
-    ### classify the data
     inspection = Inspection()
     inspection.df = robot.df
+    ### classify the data
     inspection.save_column_types()
     robot.column_types = inspection.column_types
     ### visualize and calculate the data
@@ -42,6 +44,7 @@ def main():
     analysis = Analysis()
     analysis.df = robot.df
     analysis.column_types = robot.column_types
+    ###
     analysis.analysis_hypothesis()
 
 
