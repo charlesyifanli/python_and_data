@@ -17,7 +17,7 @@ def main():
     robot = Robot()
 
     ## load data
-    robot.load_csv(input('Please enter the csv file path.'))
+    robot.load_csv(input('Please enter the csv file path: '))
 
     ## data cleaning
     ### handle missing values and caste type
@@ -35,9 +35,15 @@ def main():
     ### visualize and calculate the data
     # inspection.calculate_and_plot()
     ### numeric data inspection
-    inspection.numeric_data_inspection()
+    # inspection.numeric_data_inspection()
     ### box or scatter
-    inspection.box_scatter_plot()
+    # inspection.box_scatter_plot()
+
+    ## data analysis
+    analysis = Analysis()
+    analysis.df = robot.df
+    analysis.column_types = robot.column_types
+    analysis.analysis_hypothesis()
 
 
 if __name__ == '__main__':
