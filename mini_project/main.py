@@ -7,6 +7,7 @@ import pandas as pd
 class Robot:
     def __init__(self):
         self.df = None
+        self.column_types = None
 
     def load_csv(self, file_path):
         self.df = pd.read_csv('./heart_attack_prediction_dataset.csv')
@@ -14,16 +15,22 @@ class Robot:
 
 def main():
     robot = Robot()
-    clean = Clean()
-    inspection = Inspection()
 
+    ## load data
     robot.load_csv(input('Please enter the csv file path.'))
 
-    clean.df = robot.df
-    clean.process()
-    robot.df = clean.df
+    ## handle missing values and caste type
+    # clean = Clean()
+    # clean.df = robot.df
+    # clean.process()
+    # robot.df = clean.df
 
-    print(robot.df.head())
+    ## classify, visualize and calculate the data
+    inspection = Inspection()
+    inspection.df = robot.df
+    inspection.save_column_types()
+    robot.column_types = inspection.column_types
+    inspection.calculate_and_plot()
 
 
 if __name__ == '__main__':

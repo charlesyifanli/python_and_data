@@ -24,13 +24,16 @@ class Inspection:
     def calculate_and_plot(self):
         for col_name, category in dict(self.column_types).items():
             if 'nominal' in category:
-                mode = self.df[category].mode()[0]
+                mode = self.df[col_name].mode()[0]
                 self.plot_bar_chart(col_name, mode)
-            elif 'ordinal' in category:
-                median = self.df[category].median()
+            elif 'non-numeric' in category:
+                mode = self.df[col_name].mode()[0]
+                self.plot_bar_chart(col_name, mode)
+            elif 'numeric' in category:
+                median = self.df[col_name].median()
                 self.plot_boxplot(col_name, median)
             else:
-                mean = self.df[category].mean()
+                mean = self.df[col_name].mean()
                 self.plot_histogram(col_name, mean)
 
     def plot_bar_chart(self, col, mode) -> None:
