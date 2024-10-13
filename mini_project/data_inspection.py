@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy import stats
 import pandas as pd
 
 
@@ -68,4 +67,87 @@ class Inspection:
         plt.ylabel('Frequency')
 
         plt.legend([f'Mean: {mean}'], loc='upper right')
+        plt.show()
+
+    def numeric_data_inspection(self):
+        numeric_data = [col for col, category in self.column_types.items() if category == 'interval']
+        print(f'Numerical data:')
+        for idx, val in enumerate(numeric_data):
+            print(f'{idx + 1}: {val}')
+        while True:
+            print('A. Inspect only one var.\nB. Inspect two vars relationship.\nC. Quit.')
+            choice = input('Please enter your choice only with "A" "B" or "C": ')
+            if choice.upper() == 'A':
+                select = int(input('Please enter the var number: '))
+                idx = select - 1
+                col = numeric_data[idx]
+                print(f'Your choice is {col}')
+                print(f'Std: {self.df[col].std()}\nKurtosis: {self.df[col].kurt()}\nSkewness:{self.df[col].skew()}')
+            elif choice.upper() == 'B':
+                select_01 = int(input('Please enter the fist number: '))
+                select_02 = int(input('Please enter the second number: '))
+                col_01 = numeric_data[select_01 - 1]
+                col_02 = numeric_data[select_02 - 1]
+                print(f'Your choice is {col_01} and {col_02}')
+                print(f'Correlation: {self.df[col_01].corr(self.df[col_02])}')
+            elif choice.upper() == 'C':
+                break
+            else:
+                print('Invalid')
+                continue
+
+    def box_scatter_plot(self):
+        category_data = [col for col, category in self.column_types.items() if category != 'interval']
+        numeric_data = [col for col, category in self.column_types.items() if category == 'interval']
+        while True:
+            print('A. Box.\nB. Scatter.\nC. Quit.')
+            choice = input('Please enter your choice only with "A" "B" or "C": ')
+            if choice.upper() == 'A':
+                print(f'Category data:')
+                for idx, val in enumerate(category_data):
+                    print(f'{idx + 1}: {val}')
+                select_01 = int(input('Please enter the category data number: '))
+                col_01 = category_data[select_01 - 1]
+
+                print(f'Numerical data:')
+                for idx, val in enumerate(numeric_data):
+                    print(f'{idx + 1}: {val}')
+                select_02 = int(input('Please enter the numeric data number: '))
+                col_02 = numeric_data[select_02 - 1]
+                ##
+                self.plot_boxplot_02(col_01, col_02)
+            elif choice.upper() == 'B':
+                print(f'Numerical data:')
+                for idx, val in enumerate(numeric_data):
+                    print(f'{idx + 1}: {val}')
+                select_01 = int(input('Please enter the fist number: '))
+                select_02 = int(input('Please enter the second number: '))
+                col_01 = numeric_data[select_01 - 1]
+                col_02 = numeric_data[select_02 - 1]
+                ##
+                self.plot_scatterplot(col_01, col_02)
+            elif choice.upper() == 'C':
+                break
+            else:
+                print('Invalid')
+                continue
+
+    def plot_boxplot_02(self, col_01, col_02):
+        plt.figure(figsize=(8, 4))
+        sns.boxplot(x=self.df[col_01], y=self.df[col_02])
+
+        plt.title(f'Boxplot of {col_01} by {col_02}')
+        plt.xlabel(col_01)
+        plt.ylabel(col_02)
+
+        plt.show()
+
+    def plot_scatterplot(self, col_01, col_02):
+        plt.figure(figsize=(8, 4))
+        plt.scatter(x=self.df[col_01], y=self.df[col_02])
+
+        plt.title(f'Scatter of {col_01} and {col_02}')
+        plt.xlabel(col_01)
+        plt.ylabel(col_02)
+
         plt.show()
