@@ -2,7 +2,6 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-import numpy as np
 
 
 class Analysis:
