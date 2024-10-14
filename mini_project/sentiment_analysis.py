@@ -16,10 +16,33 @@ class Sentiment:
     def load_data(self, path):
         self.df = pd.read_csv(path)
 
-    def is_text_column(self, column_name):
-        if self.df[column_name].dtype != 'object':
-            return False
-        return all(isinstance(val, str) for val in self.df[column_name])
+    def analysis(self):
+        self.get_text_columns()
+        text_list = list(self.text_df.columns)
+        print(f'Text columns:')
+        for idx, val in enumerate(text_list):
+            print(f'{idx + 1}: {val}')
+        while True:
+            var_num = int(input('Please enter the number'))
+            data = self.df[text_list[var_num - 1]]
+
+            choice = input('A. Vader.\nB. TextBlob.\nC.distilbert\nD. Quit')
+            if choice.upper() == 'A':
+                scores, sentiments = self.vader_sentiment_analysis(data)
+                print("Sentiment Analysis Result DataFrame:")
+                print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments}))
+            elif choice.upper() == 'B':
+                scores, sentiments, subjectivity = self.textblob_sentiment_analysis(data)
+                print("Sentiment Analysis Result DataFrame:")
+                print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments, 'Subjectivity': subjectivity}))
+            elif choice.upper() == 'C':
+                scores, sentiments = self.distilbert_sentiment_analysis(data)
+                print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments}))
+            elif choice.upper() == 'D':
+                break
+            else:
+                print('Invalid')
+                continue
 
     def get_text_columns(self):
         text_columns = self.df.select_dtypes(include=['object'])

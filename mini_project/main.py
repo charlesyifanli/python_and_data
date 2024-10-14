@@ -1,7 +1,7 @@
 from data_analysis import Analysis
 from data_inspection import Inspection
 from data_clean import Clean
-from data_sentiment import Sentiment
+from sentiment_analysis import Sentiment
 import pandas as pd
 
 
@@ -49,8 +49,13 @@ def main():
     analysis.analysis_hypothesis()
 
     ## sentiment analysis
-    senti_ana = Sentiment()
-    senti_ana.df = robot.df
+    choice = int(input('Data have text? "Yes: 1" or "No:2": '))
+    if choice == 1:
+        sentiment = Sentiment()
+        sentiment.df = robot.df
+        sentiment.analysis()
+    else:
+        pass
 
 
 if __name__ == '__main__':
