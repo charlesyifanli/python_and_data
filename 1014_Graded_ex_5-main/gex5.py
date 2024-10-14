@@ -72,9 +72,6 @@ class SentimentAnalysis:
         return scores, sentiments, subjectivity
 
     def distilbert_sentiment_analysis(self, data):
-        if pipeline is None:
-            raise ImportError("transformers library is not installed")
-
         sentiment_pipeline = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
         scores = []
         sentiments = []
