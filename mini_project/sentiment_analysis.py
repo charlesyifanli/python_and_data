@@ -17,16 +17,16 @@ class Sentiment:
         self.df = pd.read_csv(path)
 
     def analysis(self):
-        self.get_text_columns()
-        text_list = list(self.text_df.columns)
-        print(f'Text columns:')
-        for idx, val in enumerate(text_list):
-            print(f'{idx + 1}: {val}')
+        self.set_text_columns()
+        text_list = list(self.text_df['Column Name'])
         while True:
-            var_num = int(input('Please enter the number'))
+            print(f'Text columns:')
+            for idx, val in enumerate(text_list):
+                print(f'{idx + 1}: {val}')
+            var_num = int(input('Please enter the number: '))
             data = self.df[text_list[var_num - 1]]
 
-            choice = input('A. Vader.\nB. TextBlob.\nC.distilbert\nD. Quit')
+            choice = input('A. Vader.\nB. TextBlob.\nC. Distilbert\nD. Quit\nYour choice: ')
             if choice.upper() == 'A':
                 scores, sentiments = self.vader_sentiment_analysis(data)
                 print("Sentiment Analysis Result DataFrame:")
@@ -44,7 +44,7 @@ class Sentiment:
                 print('Invalid')
                 continue
 
-    def get_text_columns(self):
+    def set_text_columns(self):
         text_columns = self.df.select_dtypes(include=['object'])
         data = {
             'Column Name': [],
