@@ -8,12 +8,18 @@ except ImportError:
     pipeline = None
 
 
-class SentimentAnalysis:
+class Sentiment:
     def __init__(self):
         self.df = None
+        self.text_df = None
 
     def load_data(self, path):
         self.df = pd.read_csv(path)
+
+    def is_text_column(self, column_name):
+        if self.df[column_name].dtype != 'object':
+            return False
+        return all(isinstance(val, str) for val in self.df[column_name])
 
     def get_text_columns(self):
         text_columns = self.df.select_dtypes(include=['object'])
@@ -30,8 +36,7 @@ class SentimentAnalysis:
             data['Average Entry Length'].append(avg_length)
             data['Unique Entries'].append(unique_entries)
 
-        result_df = pd.DataFrame(data)
-        return result_df
+        self.text_df = pd.DataFrame(data)
 
     def vader_sentiment_analysis(self, data):
         analyzer = SentimentIntensityAnalyzer()

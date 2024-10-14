@@ -1,6 +1,7 @@
 from data_analysis import Analysis
 from data_inspection import Inspection
 from data_clean import Clean
+from data_sentiment import Sentiment
 import pandas as pd
 
 
@@ -46,6 +47,10 @@ def main():
     analysis.column_types = robot.column_types
     ###
     analysis.analysis_hypothesis()
+
+    ## sentiment analysis
+    senti_ana = Sentiment()
+    senti_ana.df = robot.df
 
 
 if __name__ == '__main__':
