@@ -11,7 +11,7 @@ class Robot:
         self.column_types = None
 
     def load_csv(self, file_path):
-        file_path = './demo.csv' if not file_path else file_path
+        file_path = './heart_attack_prediction_dataset.csv' if not file_path else file_path
         self.df = pd.read_csv(file_path)
 
 
