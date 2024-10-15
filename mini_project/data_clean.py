@@ -8,7 +8,6 @@ class Clean:
     def process(self):
         for col in self.df.columns:
             self.handle_missing_values(col)
-            self.check_data_types(col)
         return self.df
 
     def handle_missing_values(self, col) -> bool:
@@ -21,7 +20,4 @@ class Clean:
         return True
 
     def check_data_types(self, col) -> None:
-        try:
-            self.df[col] = pd.to_numeric(self.df[col])
-        except ValueError:
-            pass
+        self.df[col] = pd.to_numeric(self.df[col])

@@ -85,13 +85,25 @@ class Inspection:
             print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Quite.')
             choice = input('Please enter the number: ')
             if choice == '1':
-                self.plot_bar_chart()
+                if not self.nominal or not self.interval:
+                    print('\nNo suitable data')
+                else:
+                    self.plot_bar_chart()
             elif choice == '2':
-                self.plot_boxplot()
+                if not (self.na_ordinal + self.nu_ordinal) or not self.interval:
+                    print('\nNo suitable data')
+                else:
+                    self.plot_boxplot()
             elif choice == '3':
-                self.plot_histogram()
+                if not self.interval:
+                    print('\nNo suitable data')
+                else:
+                    self.plot_histogram()
             elif choice == '4':
-                self.plot_scatterplot()
+                if not self.interval:
+                    print('\nNo suitable data')
+                else:
+                    self.plot_scatterplot()
             elif choice == '5':
                 break
             else:
