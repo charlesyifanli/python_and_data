@@ -20,43 +20,37 @@ def main():
     robot = Robot()
     robot.load_csv(input('Please enter the csv file path: '))
 
-    ## data cleaning
+    ## data cleaning preparation
     clean = Clean(robot.df)
-    ### handle missing value and caste type
-    clean.process()
-    robot.df = clean.df
+    robot.df = clean.process()
 
-    ## data inspection
-
-    ## data relationship
-
-    ############################################################
-
-    ## data inspection
+    ## data inspection preparation
     inspection = Inspection(robot.df)
-    ### classify the data
-    inspection.save_column_types()
-    robot.column_types = inspection.column_types
-    ### visualize and calculate the data
-    inspection.calculate_and_plot()
-    ### numeric data inspection
-    inspection.numeric_data_inspection()
-    ### box or scatter
-    inspection.box_scatter_plot()
+    robot.column_types = inspection.list_column_types()
 
-    ## data analysis
+    ## data analysis preparation
     analysis = Analysis(robot.df, robot.column_types)
-    ###
-    analysis.analysis_hypothesis()
 
-    ## sentiment analysis
-    choice = int(input('Data have text? "Yes: 1" or "No:2": '))
-    if choice == 1:
-        sentiment = Sentiment()
-        sentiment.df = robot.df
-        sentiment.analysis()
-    else:
-        pass
+    ## sentiment analysis preparation
+    sentiment = Sentiment(robot.df)
+
+    ##
+    inspection.calculate_and_show()
+    while True:
+        print(
+            '\nWhat do you want to explore?\n1. Plot the data.\n2. Hypothesis testing\n3. Sentiment Analysis.\n4. Quite.')
+        choice = input('Please enter the number: ')
+        if choice == '1':
+            inspection.plot_data()
+        elif choice == '2':
+            pass
+        elif choice == '3':
+            pass
+        elif choice == '4':
+            print('\nGood Bye')
+            break
+        else:
+            print('\nInvalid input.')
 
 
 if __name__ == '__main__':

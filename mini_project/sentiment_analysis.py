@@ -9,8 +9,8 @@ except ImportError:
 
 
 class Sentiment:
-    def __init__(self):
-        self.df = None
+    def __init__(self, df):
+        self.df = df
         self.text_df = None
 
     def load_data(self, path):
@@ -53,12 +53,12 @@ class Sentiment:
         }
 
         for column in text_columns:
-            avg_length = text_columns[column].apply(len).mean()
-            unique_entries = text_columns[column].nunique()
-            data['Column Name'].append(column)
-            data['Average Entry Length'].append(avg_length)
-            data['Unique Entries'].append(unique_entries)
-
+            if all(text_columns[column].apply(len) > 20):
+                avg_length = text_columns[column].apply(len).mean()
+                unique_entries = text_columns[column].nunique()
+                data['Column Name'].append(column)
+                data['Average Entry Length'].append(avg_length)
+                data['Unique Entries'].append(unique_entries)
         self.text_df = pd.DataFrame(data)
 
     def vader_sentiment_analysis(self, data):
