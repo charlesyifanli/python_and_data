@@ -43,9 +43,9 @@ def main():
         if choice == '1':
             inspection.plot_data()
         elif choice == '2':
-            pass
+            analysis.analysis_hypothesis()
         elif choice == '3':
-            pass
+            sentiment.analysis()
         elif choice == '4':
             print('\nGood Bye')
             break

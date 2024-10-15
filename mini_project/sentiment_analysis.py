@@ -17,23 +17,25 @@ class Sentiment:
         self.df = pd.read_csv(path)
 
     def analysis(self):
-        self.set_text_columns()
+        if not self.set_text_columns():
+            print('\nNo text data')
+            return 0
         text_list = list(self.text_df['Column Name'])
         while True:
-            print(f'Text columns:')
+            print(f'\nText columns:')
             for idx, val in enumerate(text_list):
                 print(f'{idx + 1}: {val}')
             var_num = int(input('Please enter the number: '))
             data = self.df[text_list[var_num - 1]]
 
-            choice = input('A. Vader.\nB. TextBlob.\nC. Distilbert\nD. Quit\nYour choice: ')
+            choice = input('\nA. Vader.\nB. TextBlob.\nC. Distilbert\nD. Quit\nYour choice: ')
             if choice.upper() == 'A':
                 scores, sentiments = self.vader_sentiment_analysis(data)
-                print("Sentiment Analysis Result DataFrame:")
+                print("\nSentiment Analysis Result DataFrame:")
                 print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments}))
             elif choice.upper() == 'B':
                 scores, sentiments, subjectivity = self.textblob_sentiment_analysis(data)
-                print("Sentiment Analysis Result DataFrame:")
+                print("\nSentiment Analysis Result DataFrame:")
                 print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments, 'Subjectivity': subjectivity}))
             elif choice.upper() == 'C':
                 scores, sentiments = self.distilbert_sentiment_analysis(data)
@@ -41,8 +43,7 @@ class Sentiment:
             elif choice.upper() == 'D':
                 break
             else:
-                print('Invalid')
-                continue
+                print('\nInvalid input')
 
     def set_text_columns(self):
         text_columns = self.df.select_dtypes(include=['object'])
@@ -59,7 +60,10 @@ class Sentiment:
                 data['Column Name'].append(column)
                 data['Average Entry Length'].append(avg_length)
                 data['Unique Entries'].append(unique_entries)
+        if not data['Column Name']:
+            return False
         self.text_df = pd.DataFrame(data)
+        return True
 
     def vader_sentiment_analysis(self, data):
         analyzer = SentimentIntensityAnalyzer()

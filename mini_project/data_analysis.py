@@ -11,31 +11,30 @@ class Analysis:
 
     def analysis_hypothesis(self):
         while True:
-            print('A. Analyze numeric and category data.\nB. Analyze only category data.\n'
-                  'C. Analyze only numeric data.\nD. Quit.')
-            choice = input('Please enter your choice only with "A" "B" "C" or "D": ')
-            if choice.upper() == 'A':
+            print('\n1. Analyze numeric and category data.\n2. Analyze only category data.\n'
+                  '3. Analyze only numeric data.\n4. Quit.')
+            choice = input('Please enter your choice: ')
+            if choice.upper() == '1':
                 self.numeric_category_test()
-            elif choice.upper() == 'B':
+            elif choice.upper() == '2':
                 self.category_test()
-            elif choice.upper() == 'C':
+            elif choice.upper() == '3':
                 self.regression_test()
-            elif choice.upper() == 'D':
+            elif choice.upper() == '4':
                 break
             else:
-                print('Invalid')
-                continue
+                print('\nInvalid input')
 
     def numeric_category_test(self):
         numeric_data = self.get_numeric_data()
-        print(f'Numeric data:')
+        print(f'\nNumeric data:')
         for idx, val in enumerate(numeric_data):
             print(f'{idx + 1}: {val}')
         choice_01 = int(input('Please enter the number: '))
         col_01 = numeric_data[choice_01 - 1]
 
         category_date = self.get_category_data()
-        print('Category data: ')
+        print('\nCategory data: ')
         for idx, val in enumerate(category_date):
             print(f'{idx + 1}: {val}')
         choice_02 = int(input('Please enter the number: '))
@@ -44,18 +43,18 @@ class Analysis:
         ## evaluate
         self.plot_qq_plot(col_01)
         normal_res = self.check_normality(self.df[col_01])
-        print(f'Numeric data, {col_01}, are normal'
+        print(f'\nNumeric data, {col_01}, are normal'
               if normal_res['is_normal'] == True else f'Numeric data, {col_01}, are not normal')
         print(f'Details: {normal_res}')
 
         h_res = self.anova_kruskal_t_mann_test(self.df[col_02], self.df[col_01], normal_res['is_normal'])
-        print(f'Default Null Hypothesis (H0): There is no significant mean difference between {col_01} and {col_02}')
+        print(f'\nDefault Null Hypothesis (H0): There is no significant mean difference between {col_01} and {col_02}')
         print(f'Reject H0' if h_res['is_significant'] else 'Fail to reject H0')
         print(f'Details: {h_res}')
 
     def category_test(self):
         category_date = self.get_category_data()
-        print('Category data: ')
+        print('\nCategory data: ')
         for idx, val in enumerate(category_date):
             print(f'{idx + 1}: {val}')
         choice_01 = int(input('Please enter the first number: '))
@@ -65,13 +64,13 @@ class Analysis:
 
         ## evaluate
         chi_res = self.chi_square_test(self.df[col_01], self.df[col_02])
-        print(f'Default Null Hypothesis (H0): There is no significant difference between {col_01} and {col_02}')
+        print(f'\nDefault Null Hypothesis (H0): There is no significant difference between {col_01} and {col_02}')
         print(f'Reject H0' if chi_res['is_significant'] else 'Fail to reject H0')
         print(f'Details: {chi_res}')
 
     def regression_test(self):
         numeric_data = self.get_numeric_data()
-        print(f'Numeric data:')
+        print(f'\nNumeric data:')
         for idx, val in enumerate(numeric_data):
             print(f'{idx + 1}: {val}')
         choice_01 = int(input('Please enter the first number: '))
@@ -86,7 +85,7 @@ class Analysis:
         model = LinearRegression()
         model.fit(x, y)
 
-        print(f'Regression results between {col_01} and {col_02}:')
+        print(f'\nRegression results between {col_01} and {col_02}:')
         print(f'Coefficient: {model.coef_[0]}')
         print(f'Intercept: {model.intercept_}')
         print(f'R-squared: {model.score(x, y)}')
