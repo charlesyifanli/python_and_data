@@ -4,8 +4,8 @@ import pandas as pd
 
 
 class Inspection:
-    def __init__(self):
-        self.df = None
+    def __init__(self, df):
+        self.df = df
         self.column_types = None
 
     def save_column_types(self):

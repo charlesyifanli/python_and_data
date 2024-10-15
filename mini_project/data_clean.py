@@ -2,8 +2,8 @@ import pandas as pd
 
 
 class Clean:
-    def __init__(self):
-        self.df = None
+    def __init__(self, df):
+        self.df = df
 
     def process(self):
         for col in self.df.columns:

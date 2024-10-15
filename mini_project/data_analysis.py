@@ -5,9 +5,9 @@ from sklearn.linear_model import LinearRegression
 
 
 class Analysis:
-    def __init__(self):
-        self.df = None
-        self.column_types = None
+    def __init__(self, df, types):
+        self.df = df
+        self.column_types = types
 
     def analysis_hypothesis(self):
         while True:
