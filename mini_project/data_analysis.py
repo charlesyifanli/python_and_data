@@ -108,7 +108,8 @@ class Analysis:
             'is_normal': float(p_value) > 0.05
         }
 
-    def anova_kruskal_t_mann_test(self, category_vars, interval_vars, is_normal=False):
+    @staticmethod
+    def anova_kruskal_t_mann_test(category_vars, interval_vars, is_normal=False):
         if len(category_vars) < 3:
             if is_normal:
                 # Perform t-test
@@ -135,7 +136,8 @@ class Analysis:
             'is_significant': float(p_value) < 0.05
         }
 
-    def chi_square_test(self, var01, var02):
+    @staticmethod
+    def chi_square_test(var01, var02):
         contingency_table = pd.crosstab(var01, var02)
         stat, p_value, dof, expected = stats.chi2_contingency(contingency_table)
         return {
@@ -145,7 +147,8 @@ class Analysis:
             'is_significant': float(p_value) < 0.05
         }
 
-    def get_ad_p_value(self, statistic, critical_values):
+    @staticmethod
+    def get_ad_p_value(statistic, critical_values):
         """according to Anderson-Darling statistic and critical_values judge p value"""
         if statistic < critical_values[0]:  # 1% significance level
             return 1.0

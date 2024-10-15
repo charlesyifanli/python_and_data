@@ -65,7 +65,8 @@ class Sentiment:
         self.text_df = pd.DataFrame(data)
         return True
 
-    def vader_sentiment_analysis(self, data):
+    @staticmethod
+    def vader_sentiment_analysis(data):
         analyzer = SentimentIntensityAnalyzer()
         scores = []
         sentiments = []
@@ -82,7 +83,8 @@ class Sentiment:
 
         return scores, sentiments
 
-    def textblob_sentiment_analysis(self, data):
+    @staticmethod
+    def textblob_sentiment_analysis(data):
         scores = []
         sentiments = []
         subjectivity = []
@@ -103,7 +105,8 @@ class Sentiment:
                 sentiments.append('negative')
         return scores, sentiments, subjectivity
 
-    def distilbert_sentiment_analysis(self, data):
+    @staticmethod
+    def distilbert_sentiment_analysis(data):
         if pipeline is None:
             raise ImportError("transformers library is not installed")
 
