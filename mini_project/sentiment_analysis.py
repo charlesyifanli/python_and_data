@@ -22,22 +22,31 @@ class Sentiment:
             return 0
         text_list = list(self.text_df['Column Name'])
         while True:
-            print(f'\nText columns:')
-            for idx, val in enumerate(text_list):
-                print(f'{idx + 1}: {val}')
-            var_num = int(input('Please enter the number: '))
-            data = self.df[text_list[var_num - 1]]
-
             choice = input('\nA. Vader.\nB. TextBlob.\nC. Distilbert\nD. Quit\nYour choice: ')
             if choice.upper() == 'A':
+                print(f'\nText columns:')
+                for idx, val in enumerate(text_list):
+                    print(f'{idx + 1}: {val}')
+                var_num = int(input('Please enter the number: '))
+                data = self.df[text_list[var_num - 1]]
                 scores, sentiments = self.vader_sentiment_analysis(data)
                 print("\nSentiment Analysis Result DataFrame:")
                 print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments}))
             elif choice.upper() == 'B':
+                print(f'\nText columns:')
+                for idx, val in enumerate(text_list):
+                    print(f'{idx + 1}: {val}')
+                var_num = int(input('Please enter the number: '))
+                data = self.df[text_list[var_num - 1]]
                 scores, sentiments, subjectivity = self.textblob_sentiment_analysis(data)
                 print("\nSentiment Analysis Result DataFrame:")
                 print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments, 'Subjectivity': subjectivity}))
             elif choice.upper() == 'C':
+                print(f'\nText columns:')
+                for idx, val in enumerate(text_list):
+                    print(f'{idx + 1}: {val}')
+                var_num = int(input('Please enter the number: '))
+                data = self.df[text_list[var_num - 1]]
                 scores, sentiments = self.distilbert_sentiment_analysis(data)
                 print(pd.DataFrame({'Score': scores, 'Sentiment': sentiments}))
             elif choice.upper() == 'D':

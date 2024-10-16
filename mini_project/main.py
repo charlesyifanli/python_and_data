@@ -38,7 +38,7 @@ def main():
     inspection.calculate_and_show()
     while True:
         print(
-            '\nWhat do you want to explore?\n1. Plot the data.\n2. Hypothesis testing\n3. Sentiment Analysis.\n4. Quite.')
+            '\nWhat do you want to explore?\n1. Plot the data.\n2. Hypothesis testing\n3. Sentiment Analysis.\n4. Quit.')
         choice = input('Please enter the number: ')
         if choice == '1':
             inspection.plot_data()

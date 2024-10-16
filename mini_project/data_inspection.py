@@ -16,9 +16,9 @@ class Inspection:
         column_types = dict()
         for column in list(self.df.columns):
             if pd.api.types.is_numeric_dtype(self.df[column]):
-                column_types[column] = 'numeric ordinal' if self.df[column].nunique() < 10 else 'interval'
+                column_types[column] = 'numeric ordinal' if self.df[column].nunique() <= 10 else 'interval'
             else:
-                column_types[column] = 'non-numeric ordinal' if self.df[column].nunique() < 10 else 'nominal'
+                column_types[column] = 'non-numeric ordinal' if self.df[column].nunique() <= 10 else 'nominal'
         self.column_types = column_types
         self.classify_data()
         return column_types
@@ -82,7 +82,7 @@ class Inspection:
 
     def plot_data(self):
         while True:
-            print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Quite.')
+            print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Quit.')
             choice = input('Please enter the number: ')
             if choice == '1':
                 if not self.nominal or not self.interval:
@@ -90,7 +90,7 @@ class Inspection:
                 else:
                     self.plot_bar_chart()
             elif choice == '2':
-                if not (self.na_ordinal + self.nu_ordinal) or not self.interval:
+                if (not (self.na_ordinal + self.nu_ordinal) and not self.nominal) or not self.interval:
                     print('\nNo suitable data')
                 else:
                     self.plot_boxplot()
@@ -130,10 +130,10 @@ class Inspection:
         plt.show()
 
     def plot_boxplot(self) -> None:
-        print('\nOrdinal data')
-        for idx, val in enumerate(self.na_ordinal + self.nu_ordinal):
+        print('\nOrdinal or nominal data')
+        for idx, val in enumerate(self.na_ordinal + self.nu_ordinal + self.nominal):
             print(f'{idx + 1}:{val}')
-        choice_ordinal = (self.na_ordinal + self.nu_ordinal)[int(input('Please enter the number:')) - 1]
+        choice_ordinal = (self.na_ordinal + self.nu_ordinal + self.nominal)[int(input('Please enter the number:')) - 1]
 
         print('\nNumeric data')
         for idx, val in enumerate(self.interval):
@@ -172,7 +172,7 @@ class Inspection:
         choice_numeric_02 = self.interval[int(input('Please enter the number:')) - 1]
 
         plt.figure(figsize=(8, 4))
-        plt.scatter(x=self.df[choice_numeric], y=self.df[choice_numeric_02])
+        plt.scatter(x=self.df[choice_numeric][:200], y=self.df[choice_numeric_02][:200])
 
         plt.title('Scatter Plot')
         plt.xlabel(f'{choice_numeric}')
