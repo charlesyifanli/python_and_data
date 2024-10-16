@@ -22,7 +22,7 @@ class Sentiment:
             return 0
         text_list = list(self.text_df['Column Name'])
         while True:
-            choice = input('\nA. Vader.\nB. TextBlob.\nC. Distilbert\nD. Quit\nYour choice: ')
+            choice = input('\nA. Vader.\nB. TextBlob.\nC. Distilbert.\nD. Back.\nYour choice: ')
             if choice.upper() == 'A':
                 print(f'\nText columns:')
                 for idx, val in enumerate(text_list):

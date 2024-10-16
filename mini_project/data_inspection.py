@@ -82,7 +82,7 @@ class Inspection:
 
     def plot_data(self):
         while True:
-            print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Quit.')
+            print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Back.')
             choice = input('Please enter the number: ')
             if choice == '1':
                 if not self.nominal or not self.interval:

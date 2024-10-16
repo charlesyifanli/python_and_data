@@ -12,7 +12,7 @@ class Analysis:
     def analysis_hypothesis(self):
         while True:
             print('\n1. Analyze numeric and category data.\n2. Analyze only category data.\n'
-                  '3. Analyze only numeric data.\n4. Quit.')
+                  '3. Analyze only numeric data.\n4. Back.')
             choice = input('Please enter your choice: ')
             if choice.upper() == '1':
                 self.numeric_category_test()
