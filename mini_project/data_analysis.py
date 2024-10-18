@@ -94,12 +94,26 @@ class Analysis:
         choice_02 = int(input('Please enter the second number: '))
         col_02 = numeric_data[choice_02 - 1]
 
-        x = self.df[[col_01]].values.reshape(-1, 1)
-        y = self.df[col_02].values
+        x = self.df[[col_01]][:200].values.reshape(-1, 1)
+        y = self.df[col_02][:200].values
 
         ## evaluate
         model = LinearRegression()
         model.fit(x, y)
+
+        # Make predictions for the regression line
+        y_pred = model.predict(x)
+
+        # Visualization
+        plt.figure(figsize=(10, 6))
+        plt.scatter(x, y, color='blue', label='Data points')  # Scatter plot of original data points
+        plt.plot(x, y_pred, color='red', linewidth=2, label='Regression line')  # Regression line
+        plt.title(f'Linear Regression: {col_01} vs {col_02}')
+        plt.xlabel(col_01)
+        plt.ylabel(col_02)
+        plt.legend()
+        plt.grid()
+        plt.show()
 
         print(
             'Knowledge: Positive coefficient: Indicates a positive correlation. When col_01 increases, col_02 also increases.'
@@ -162,7 +176,7 @@ class Analysis:
         stat, p_value, dof, expected = stats.chi2_contingency(contingency_table)
         # Visualization: Heatmap of the Contingency Table
         plt.figure(figsize=(10, 6))
-        sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Blues', cbar=True)
+        sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Reds', cbar=True)
         plt.title('Contingency Table Heatmap')
         plt.xlabel('Variable 2')
         plt.ylabel('Variable 1')
