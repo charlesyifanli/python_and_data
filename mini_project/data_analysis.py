@@ -43,7 +43,14 @@ class Analysis:
         ## evaluate
         self.plot_qq_plot(col_01)
         normal_res = self.check_normality(self.df[col_01])
-        print(f'\nNumeric data, {col_01}, are normal'
+        test_name = normal_res['test']
+        normal_p_value = normal_res['p_value']
+        print(f'\nNumeric data: {col_01}')
+        print(f'Null Hypothesis (H₀): The data follows a normal distribution.')
+        print(f'Data have more than 2000 rows, {test_name} will be used' if len(
+            self.df[col_01]) > 2000 else f'Data have less than 2000 rows, {test_name} will be used')
+        print(f'P_value: {normal_p_value}')
+        print(f'Numeric data, {col_01}, are normal'
               if normal_res['is_normal'] == True else f'Numeric data, {col_01}, are not normal')
         print(f'Details: {normal_res}')
 
