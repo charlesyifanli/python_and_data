@@ -178,8 +178,8 @@ class Analysis:
         plt.figure(figsize=(10, 6))
         sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Reds', cbar=True)
         plt.title('Contingency Table Heatmap')
-        plt.xlabel('Variable 2')
-        plt.ylabel('Variable 1')
+        plt.xlabel(f'{var02.name}')
+        plt.ylabel(f'{var01.name}')
         plt.show()
         ####
         return {
