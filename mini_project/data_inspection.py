@@ -115,10 +115,10 @@ class Inspection:
                 print('\nInvalid input.')
 
     def plot_bar_chart(self) -> None:
-        print('\nNominal data')
-        for idx, val in enumerate(self.nominal):
+        print('\nCategory data')
+        for idx, val in enumerate(self.nominal+self.nu_ordinal+self.na_ordinal):
             print(f'{idx + 1}:{val}')
-        choice_nominal = self.nominal[int(input('Please enter the number:')) - 1]
+        choice_nominal = (self.nominal+self.nu_ordinal+self.na_ordinal)[int(input('Please enter the number:')) - 1]
 
         print('\nNumeric data')
         for idx, val in enumerate(self.interval):
