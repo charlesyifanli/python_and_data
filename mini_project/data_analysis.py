@@ -43,21 +43,26 @@ class Analysis:
         ## evaluate
         self.plot_qq_plot(col_01)
         normal_res = self.check_normality(self.df[col_01])
-        test_name = normal_res['test']
-        normal_p_value = normal_res['p_value']
-        print(f'\nNumeric data: {col_01}')
+        print('\nNormality Testing:')
         print(f'Null Hypothesis (H₀): The data follows a normal distribution.')
-        print(f'Data have more than 2000 rows, {test_name} will be used' if len(
-            self.df[col_01]) > 2000 else f'Data have less than 2000 rows, {test_name} will be used')
-        print(f'P_value: {normal_p_value}')
-        print(f'Numeric data, {col_01}, are normal'
-              if normal_res['is_normal'] == True else f'Numeric data, {col_01}, are not normal')
+        print('Knowledge: If the data has more than 2000 rows, Anderson-Darling will be suitable, '
+              'otherwise, Shapiro-Wilk will be suitable.\n  If p_value > 0.05, fail to reject H0, otherwise, reject H0.')
+        print(f'Numeric data: {col_01}')
         print(f'Details: {normal_res}')
+        print(f'Numeric data, {col_01}, are normal with p_value > 0.05.'
+              if normal_res['is_normal'] == True else f'Numeric data, {col_01}, are not normal with p_value < 0.05.')
 
         h_res = self.anova_kruskal_t_mann_test(self.df[col_02], self.df[col_01], normal_res['is_normal'])
-        print(f'\nDefault Null Hypothesis (H0): There is no significant mean difference between {col_01} and {col_02}')
-        print(f'Reject H0' if h_res['is_significant'] else 'Fail to reject H0')
+        print('\nAnova or T Testing:')
+        print(f'Null Hypothesis (H0): There is no significant mean/median difference between {col_01} and {col_02}')
+        print('Knowledge: If normal data have more than 2 categories, '
+              'anova test will be used, otherwise, t-test will be used.'
+              '\n  If non normal data have more than 2 categories, '
+              'kruskal will be used, otherwise, mann test will be used.')
+        print(f'Category data: {col_02}')
         print(f'Details: {h_res}')
+        print(f'Reject H0 because p-value < 0.05' if h_res['is_significant']
+              else 'Fail to reject H0 because p-value > 0.05')
 
     def category_test(self):
         category_date = self.get_category_data()
@@ -71,9 +76,12 @@ class Analysis:
 
         ## evaluate
         chi_res = self.chi_square_test(self.df[col_01], self.df[col_02])
-        print(f'\nDefault Null Hypothesis (H0): There is no significant difference between {col_01} and {col_02}')
-        print(f'Reject H0' if chi_res['is_significant'] else 'Fail to reject H0')
+        print('\nChi Square Testing:')
+        print(f'Null Hypothesis (H0): There is no significant difference between {col_01} and {col_02}')
+        print('\nKnowledge: If p_value > 0.05, fail to reject H0, otherwise, reject H0.')
         print(f'Details: {chi_res}')
+        print(f'Reject H0 with p_value < 0.05' if chi_res['is_significant']
+              else 'Fail to reject H0 with p value > 0.05')
 
     def regression_test(self):
         numeric_data = self.get_numeric_data()
@@ -92,9 +100,13 @@ class Analysis:
         model = LinearRegression()
         model.fit(x, y)
 
+        print(
+            'Knowledge: Positive coefficient: Indicates a positive correlation. When col_01 increases, col_02 also increases.'
+            '\n  Negative coefficient: Indicates a negative correlation. When col_01 increases, col_02 decreases.'
+            '\n  R-squared: The closer it is to 1, the more effective the model is, and the stronger the relationship between the two variables.')
+
         print(f'\nRegression results between {col_01} and {col_02}:')
         print(f'Coefficient: {model.coef_[0]}')
-        print(f'Intercept: {model.intercept_}')
         print(f'R-squared: {model.score(x, y)}')
 
     def check_normality(self, data, critical_size=2000):
@@ -117,7 +129,7 @@ class Analysis:
 
     @staticmethod
     def anova_kruskal_t_mann_test(category_vars, interval_vars, is_normal=False):
-        if len(category_vars) < 3:
+        if category_vars.nunique() < 3:
             if is_normal:
                 # Perform t-test
                 stat, p_value = stats.ttest_ind(interval_vars[0], interval_vars[1])
