@@ -2,6 +2,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+import seaborn as sns
 
 
 class Analysis:
@@ -59,7 +60,7 @@ class Analysis:
               'anova test will be used, otherwise, t-test will be used.'
               '\n  If non normal data have more than 2 categories, '
               'kruskal will be used, otherwise, mann test will be used.')
-        print(f'Category data: {col_02}')
+        print(f'Category data: {col_02}--{self.df[col_02].unique()}')
         print(f'Details: {h_res}')
         print(f'Reject H0 because p-value < 0.05' if h_res['is_significant']
               else 'Fail to reject H0 because p-value > 0.05')
@@ -159,6 +160,14 @@ class Analysis:
     def chi_square_test(var01, var02):
         contingency_table = pd.crosstab(var01, var02)
         stat, p_value, dof, expected = stats.chi2_contingency(contingency_table)
+        # Visualization: Heatmap of the Contingency Table
+        plt.figure(figsize=(10, 6))
+        sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Blues', cbar=True)
+        plt.title('Contingency Table Heatmap')
+        plt.xlabel('Variable 2')
+        plt.ylabel('Variable 1')
+        plt.show()
+        ####
         return {
             'test': 'Chi-Square',
             'statistic': stat,
