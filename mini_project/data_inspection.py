@@ -82,7 +82,7 @@ class Inspection:
 
     def plot_data(self):
         while True:
-            print('\n1. Bar.\n2. Box.\n3. Histogram.\n4. Scatter.\n5. Back.')
+            print('\n1. Bar.\n2. Box.\n3. Histogram(only one var).\n4. Scatter.\n5. Bar(only one var).\n6. Back.')
             choice = input('Please enter the number: ')
             if choice == '1':
                 if not self.nominal or not self.interval:
@@ -105,6 +105,11 @@ class Inspection:
                 else:
                     self.plot_scatterplot()
             elif choice == '5':
+                if not self.nominal + self.nu_ordinal + self.na_ordinal:
+                    print('\nNo suitable data')
+                else:
+                    self.bar_for_one_var()
+            elif choice == '6':
                 break
             else:
                 print('\nInvalid input.')
@@ -177,5 +182,20 @@ class Inspection:
         plt.title('Scatter Plot')
         plt.xlabel(f'{choice_numeric}')
         plt.ylabel(f'{choice_numeric_02}')
+
+        plt.show()
+
+    def bar_for_one_var(self):
+        print('\nOrdinal or nominal data')
+        for idx, val in enumerate(self.na_ordinal + self.nu_ordinal + self.nominal):
+            print(f'{idx + 1}:{val}')
+        choice_ordinal = (self.na_ordinal + self.nu_ordinal + self.nominal)[int(input('Please enter the number:')) - 1]
+
+        plt.figure(figsize=(8, 4))
+        sns.countplot(x=self.df[choice_ordinal])
+
+        plt.title('Box Plot')
+        plt.xlabel(f'{choice_ordinal}')
+        plt.ylabel('Frequency')
 
         plt.show()
