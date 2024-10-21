@@ -17,4 +17,10 @@
 
 ## Inspection
 
+1. The `Inspection` class is used for classifying data, performing statistical calculations, and visualizing it. It
+   first identifies column types through the `list_column_types` method, categorizing them as nominal, numeric ordinal,
+   non-numeric ordinal, or interval data.
+2. Then, it uses `calculate_and_show` to display statistical information such as mean, mode, and standard deviation.
+3. Finally, the `plot_data` method offers various visualization options, including bar charts, box plots, histograms,
+   and scatter plots.
 
